@@ -100,3 +100,13 @@ subsystem vfio
 /sys/bus/usb/devices/* authorized_default	0664 root system
 /sys/devices/*/usb[0-9]/* authorized_default 0664  root system
 /sys/devices/*/usb[0-9]/* authorized 0664  root system
+
+# Xiaomi emerald (clean-1.2): display feature node, used by the stock HyperOS 3 fingerprint HAL for
+# local HBM (libmifpext DisplayFeatureCtl opens /dev/mi_display/disp_feature). HyperOS 3 ships this
+# rule in its system/etc/ueventd.rc, not in vendor, and clean-1 runs the stock vendor.img, so it has
+# to be in the LineageOS system one. Rule and permissions as in stock OS3.0.305.0 system/etc/ueventd.rc.
+subsystem mi_display
+    devname uevent_devpath
+    dirname /dev/mi_display
+
+/dev/mi_display/*         0666   root       graphics
